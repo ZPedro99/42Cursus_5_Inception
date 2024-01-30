@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+
+  # mariadb container ------------------------------------------------------------
+
+  # this is the only container that no depend on the others, so its the first to be created
+  mariadb:
+    image: mariadb:jomirand
+    container_name: mariadb
+    build: ./requirements/mariadb/
+    expose:
+      - "3306" # Expose port 3306 to other services
+    volumes:
+      - mariadb_data:/var/lib/mysql/
+    networks:
+      - inception # Custom network
+    env_file: .env # Inject variables into the env of the container
+    init: true
+    restart: on-failure
+
+  # wordpress container ------------------------------------------------------------
+
+  # this is the second container to be created, it depends on the mariadb container
+  wordpress:
+    image : wordpress:jomirand
+    container_name: wordpress
+    build: ./requirements/wordpress/
+    volumes:
+      - wordpress_data:/var/www/wordpress/
+    networks:
+      - inception
+    init: true
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+
+  # nginx container ------------------------------------------------------------
+
+  # this is the last container to be created, it depends on the wordpress container
+  # it use args to pass the certificate and key path to the Dockerfile
+  # in the build moment with show the private informations that where in the .env file
+  nginx:
+    image : nginx:jomirand
+    container_name: nginx
+    build:
+      context: ./requirements/nginx/
+      args:
+        CERT_DIR: ${CERT_DIR}
+        CERTIFICATE: ${CERTIFICATE}
+        KEY: ${KEY}
+        COUNTRY: ${COUNTRY}
+        STATE: ${STATE}
+        LOCALITY: ${LOCALITY}
+        ORGANIZATION: ${ORGANIZATION}
+        UNIT: ${UNIT}
+        COMMON_NAME: ${COMMON_NAME}
+        DOMAIN_NAME: ${DOMAIN_NAME}
+    ports:
+      - '443:443'
+    volumes:
+      - wordpress_data:/var/www/wordpress/
+    networks:
+      - inception
+    init: true
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      - wordpress
+
+# volumes --------------------------------------------------------------------
+
+# keeps the data shared between the containers
+# it acts like a shared hard drive between the containers and the host machine
+# device: where the data will be stored in the host machine
+volumes:
+
+  # keeps the database
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/data/mariadb_data
+
+  # keeps the wordpress files
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/data/wordpress_data
+
+# networks --------------------------------------------------------------------
+
+# this network is used to connect the containers
+# it acts like a virtual switch between the containers
+# all is the name of the network
+# bridge is the type of the network
+networks:
+  inception:
+    driver: bridge
