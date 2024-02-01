@@ -1,0 +1,39 @@
+# Mariadb variables
+DB_NAME=database1
+DB_USER=user1
+DB_PASSWORD=12345
+DB_PASS_ROOT=123456
+DB_HOST=mariadb
+
+# Wordpress variables
+WP_TITLE=Inception
+WP_ADMIN_USER=root1
+WP_ADMIN_PASSWORD=123
+WP_ADMIN_EMAIL=root1@email.com
+WP_USER=user
+WP_PASSWORD=abc
+WP_EMAIL=user@email.com
+WP_ROLE=author
+WP_URL=jomirand.42.fr
+WP_FULL_URL=https://jomirand.42.fr
+
+AUTH_KEY='J6L< 91{Fq*-a[@=Ijg(/r-M>;`}c%~|7s5=x+WuRqBh:-|%foTSBPxFdE{Ea+[n'
+SECURE_AUTH_KEY='c|gUFdY+9b:F+Jm}!td8C0e~w[XhG_Pk5|R8G?f3=v(@_C#EwZ0w7D?EPyl0jJ<4'
+LOGGED_IN_KEY='||&8Rh|ulMN,~qGfUDeUnw}mI b<s@-{B)^t0i96L:+lV->v6rGg~#X<&eLOzeEm'
+NONCE_KEY='Tt9HYz&irY+.%+}&D,S5GM^PX2_A!zy|2SGh6-]O|q,RH|c./_BkwKTqcLE%+z@y'
+AUTH_SALT='gD${KgNSzlEj|0|.7H|7|KVvWB3#QZ!e<fvTa;K3-mPvybqC[O0dX]}PYiwrEV!x'
+SECURE_AUTH_SALT='*o+q1Z[|?j|&&_cC;-[>oxBE5(k|6gccz.u99h~gVU9y&M=}E?Xe5HYm&wBz;iDr'
+LOGGED_IN_SALT='s/rvCQe|tgWavDGYN4k+kO|:v{2w:T&L?]-(K&5Ig|R)eIz}7R<3unZ=-)QSL.Ql'
+NONCE_SALT=';ATmCyZa!?[0U%nANN,Y_9&V}MWClTJ[>m3qm[DmP{Zat*^)7&-pVB{O`ZJ*kNZ<'
+
+# SSL variables
+DOMAIN_NAME=jomirand.42.fr
+CERT_DIR=/etc/nginx/certs/
+CERTIFICATE=/etc/nginx/certs/certificate.crt
+KEY=/etc/nginx/certs/certificate.key
+COUNTRY=PT
+STATE=PT
+LOCALITY=PORTO
+ORGANIZATION=42
+UNIT=PORTO
+COMMON_NAME=jomirand.42.fr
